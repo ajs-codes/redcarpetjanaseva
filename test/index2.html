@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head id="test">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#c0152a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RCJS Blood">
+<title>Red Carpet Jana Seva</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#c0152a;--red-dark:#8f0e1e;--red-light:#f9e8ea;--red-mid:#e63950;--yellow:#FFD700;--bg:#f4f4f4;--card:#fff;--text:#1a1a1a;--muted:#6b6b6b;--border:#e0e0e0;--success:#1a7a3c;--success-bg:#e6f4ec;--shadow:0 2px 14px rgba(192,21,42,0.10);--r:16px;--rs:10px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Poppins','Noto Sans Tamil',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;}
+
+.header{background:linear-gradient(135deg,var(--red-dark) 0%,var(--red) 70%,var(--red-mid) 100%);padding:16px 16px 22px;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.05);}
+.logo-row{display:flex;justify-content:center;margin-bottom:12px;}
+.logo-wrap{display:flex;align-items:center;gap:12px;max-width:100%;}
+.header-title-block{text-align:center;margin-bottom:12px;}
+.header-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;}
+.logo-img{width:72px;height:72px;flex-shrink:0;border-radius:50%;border:3px solid var(--yellow);object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,0.25);}
+.logo-txt{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:72px;flex:1;min-width:0;}
+.logo-txt .org{font-size:20px;font-weight:800;color:var(--yellow);line-height:1.15;letter-spacing:0.02em;text-align:center;}
+.logo-txt .motto{font-size:14px;color:rgba(255,255,255,0.95);font-weight:500;line-height:1.35; text-align:center;}
+.lang-box{display:flex;flex-shrink:0;background:rgba(255,255,255,0.15);border-radius:20px;padding:2px;gap:2px;border:1px solid rgba(255,255,255,0.2);}
+.lb{padding:5px 13px;border-radius:16px;border:none;font-size:11px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,0.75);font-family:'Poppins','Noto Sans Tamil',sans-serif;transition:all 0.2s;}
+.lb.active{background:#fff;color:var(--red);}
+.header h1{color:#fff;font-size:20px;font-weight:800;line-height:1.2;margin-bottom:3px;}
+.header .sub{color:rgba(255,255,255,0.85);font-size:12px;}
+.cpill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:5px 13px;color:#fff;font-size:14px;font-weight:600;text-decoration:none;}
+
+.stats-bar{display:grid;grid-template-columns:repeat(3,1fr);background:var(--red-dark);padding:10px 0;}
+.stat-item{text-align:center;color:#fff;border-right:1px solid rgba(255,255,255,0.15);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-size:18px;font-weight:800;color:var(--yellow);}
+.stat-lbl{font-size:10px;opacity:0.85;margin-top:1px;}
+
+.nav-tabs{display:flex;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.nav-tab{flex:1;padding:11px 4px;text-align:center;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:'Poppins','Noto Sans Tamil',sans-serif;transition:all 0.2s;}
+.nav-tab.active{color:var(--red);border-bottom-color:var(--red);}
+.nav-tab .ti{font-size:17px;display:block;margin-bottom:2px;}
+
+.page{display:none;padding:14px;padding-bottom:90px;}
+.page.active{display:block;}
+
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);border:1px solid rgba(192,21,42,0.07);}
+.card-title{font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:13px;color:var(--text);background:#fff;font-family:'Poppins','Noto Sans Tamil',sans-serif;transition:border-color 0.2s,box-shadow 0.2s;appearance:none;-webkit-appearance:none;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(192,21,42,0.10);}
+.field textarea{resize:none;height:70px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+.bg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:4px;}
+.bg-btn{padding:10px 4px;border:1.5px solid var(--border);border-radius:var(--rs);background:#fff;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;text-align:center;transition:all 0.18s;font-family:'Poppins',sans-serif;}
+.bg-btn.selected{border-color:var(--red);background:var(--red-light);color:var(--red);}
+
+.btn-main{width:100%;padding:14px;background:linear-gradient(135deg,var(--red-dark),var(--red));color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:700;cursor:pointer;font-family:'Poppins','Noto Sans Tamil',sans-serif;box-shadow:0 4px 14px rgba(192,21,42,0.28);transition:opacity 0.2s,transform 0.1s;margin-top:6px;}
+.btn-main:active{transform:scale(0.98);opacity:0.9;}
+.btn-sec{width:100%;padding:12px;background:#fff;color:var(--red);border:1.5px solid var(--red);border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;font-family:'Poppins','Noto Sans Tamil',sans-serif;margin-top:8px;}
+.btn-wa{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:var(--rs);font-size:13px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:8px;transition:opacity 0.2s;}
+.btn-wa:active{opacity:0.85;}
+
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
+.s-pending{background:#fff8e1;color:#b45309;}
+.s-active{background:#e0f2fe;color:#0369a1;}
+.s-completed{background:var(--success-bg);color:var(--success);}
+
+.req-item{background:#fff;border-radius:var(--rs);padding:13px;margin-bottom:10px;border:1px solid var(--border);border-left:4px solid var(--red);}
+.req-item.done{border-left-color:var(--success);}
+.req-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.req-name{font-size:14px;font-weight:700;}
+.req-meta{font-size:11px;color:var(--muted);margin-bottom:3px;line-height:1.6;}
+.req-actions{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;}
+.act-btn{flex:1;min-width:70px;padding:7px 4px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;font-family:'Poppins','Noto Sans Tamil',sans-serif;text-align:center;transition:all 0.18s;}
+.act-done{border-color:var(--success);color:var(--success);}
+.act-wa{border-color:#25D366;color:#128c42;}
+.act-del{border-color:#e11d48;color:#e11d48;}
+
+.donor-card{background:#fff;border-radius:var(--rs);padding:13px;margin-bottom:10px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.donor-avatar{width:42px;height:42px;border-radius:50%;background:var(--red-light);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--red);flex-shrink:0;}
+.donor-bg{background:var(--red);color:#fff;font-size:12px;font-weight:800;padding:4px 10px;border-radius:8px;margin-left:auto;flex-shrink:0;}
+
+.filter-bar{display:flex;gap:7px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px;}
+.filter-btn{padding:6px 14px;border:1.5px solid var(--border);border-radius:20px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;color:var(--muted);font-family:'Poppins','Noto Sans Tamil',sans-serif;flex-shrink:0;}
+.filter-btn.active{background:var(--red);border-color:var(--red);color:#fff;}
+
+.inner-tabs{display:flex;gap:8px;margin-bottom:14px;}
+.inner-tab{flex:1;padding:10px;border:1.5px solid var(--border);border-radius:var(--rs);background:#fff;font-size:12px;font-weight:600;cursor:pointer;text-align:center;color:var(--muted);font-family:'Poppins','Noto Sans Tamil',sans-serif;transition:all 0.2s;}
+.inner-tab.active{background:var(--red-light);border-color:var(--red);color:var(--red);}
+
+.dist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.dist-btn{padding:10px 8px;border:1.5px solid var(--border);border-radius:var(--rs);background:#fff;font-size:12px;font-weight:600;cursor:pointer;text-align:center;color:var(--text);font-family:'Poppins','Noto Sans Tamil',sans-serif;transition:all 0.18s;}
+.dist-btn.sel{border-color:var(--red);background:var(--red-light);color:var(--red);}
+
+.wa-box{background:#f0fdf4;border:1.5px solid #86efac;border-radius:var(--rs);padding:13px;font-size:12px;line-height:1.9;color:#14532d;white-space:pre-wrap;word-break:break-word;margin-bottom:10px;font-family:monospace;max-height:300px;overflow-y:auto;}
+
+.success-screen{display:none;text-align:center;padding:36px 20px;}
+.success-screen.show{display:block;}
+.suc-icon{width:76px;height:76px;background:var(--success-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;border:3px solid #86efac;}
+
+.social-link{display:flex;align-items:center;gap:12px;padding:13px;background:#fff;border-radius:var(--rs);margin-bottom:9px;text-decoration:none;color:var(--text);border:1px solid var(--border);}
+.si{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+
+.bottom-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);padding:6px 0 10px;display:flex;justify-content:space-around;z-index:200;box-shadow:0 -4px 16px rgba(0,0,0,0.06);}
+.bb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 0;font-family:'Poppins','Noto Sans Tamil',sans-serif;}
+.bb .bi{font-size:20px;}
+.bb .bl{font-size:9px;font-weight:700;color:var(--muted);}
+.bb.active .bl{color:var(--red);}
+
+.empty{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty .ei{font-size:44px;margin-bottom:10px;}
+.empty p{font-size:13px;line-height:1.6;}
+
+.tn-banner{background:linear-gradient(90deg,#ff9933 0%,#fff 40%,#fff 60%,#138808 100%);border-radius:var(--rs);padding:3px;margin-bottom:12px;}
+.tn-banner-inner{background:#fff;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
+.tn-banner-inner span{font-size:12px;font-weight:600;color:var(--text);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-row">
+    <div class="logo-wrap">
+      <img class="logo-img" src="assets/main-logo.png" alt="Red Carpet Jana Seva">
+      <div class="logo-txt">
+        <h2 class="org">RED CARPET JANA SEVA</h2>
+        <h4 class="motto">WE SERVE TO SAVE LIVES 🩸</h4>
+      </div>
+    </div>
+  </div>
+  <div class="header-title-block">
+    <h1 id="h-title">Need Blood? 🩸</h1>
+    <p class="sub" id="h-sub">Tamil Nadu Blood Support Network — Free of Cost</p>
+  </div>
+  <div class="header-actions">
+    <a href="tel:7871777477" class="cpill"><span>📞</span>7871777477</a>
+    <div class="lang-box">
+      <button class="lb" id="lb-ta" onclick="setLang('ta')">தமிழ்</button>
+      <button class="lb active" id="lb-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-num" id="stat-req">0</div><div class="stat-lbl" id="sl1">Requests</div></div>
+  <div class="stat-item"><div class="stat-num" id="stat-don">0</div><div class="stat-lbl" id="sl2">Donors</div></div>
+  <div class="stat-item"><div class="stat-num" id="stat-done">0</div><div class="stat-lbl" id="sl3">Completed</div></div>
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showPage('form',this)"><span class="ti">📋</span><span id="t1">Request</span></button>
+  <button class="nav-tab" onclick="showPage('history',this)"><span class="ti">📁</span><span id="t2">History</span></button>
+  <button class="nav-tab" onclick="showPage('donor',this)"><span class="ti">🧑‍⚕️</span><span id="t3">Donors</span></button>
+  <button class="nav-tab" onclick="showPage('district',this)"><span class="ti">🗺️</span><span id="t4">District</span></button>
+  <button class="nav-tab" onclick="showPage('about',this)"><span class="ti">ℹ️</span><span id="t5">About</span></button>
+</div>
+
+<!-- ===== FORM PAGE ===== -->
+<div class="page active" id="page-form">
+  <div class="tn-banner"><div class="tn-banner-inner"><span>🏛️</span><span id="tn-label">Tamil Nadu Blood Network</span></div></div>
+  <div id="form-area">
+    <div class="card">
+      <div class="card-title">🧑 <span id="s1">Patient Details</span></div>
+      <div class="field"><label id="l-name">Full Name</label><input type="text" id="f-name" placeholder="Patient full name"></div>
+      <div class="field-row">
+        <div class="field"><label id="l-age">Age</label><input type="number" id="f-age" placeholder="Years" min="0" max="120"></div>
+        <div class="field"><label id="l-units">Units Required</label><input type="number" id="f-units" placeholder="Units" min="1"></div>
+      </div>
+      <div class="field">
+        <label id="l-bg">Blood Group</label>
+        <div class="bg-grid">
+          <button class="bg-btn" onclick="selBG(this,'A+')">A<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selBG(this,'A-')">A<sup>-ve</sup></button>
+          <button class="bg-btn" onclick="selBG(this,'B+')">B<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selBG(this,'B-')">B<sup>-ve</sup></button>
+          <button class="bg-btn" onclick="selBG(this,'O+')">O<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selBG(this,'O-')">O<sup>-ve</sup></button>
+          <button class="bg-btn" onclick="selBG(this,'AB+')">AB<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selBG(this,'AB-')">AB<sup>-ve</sup></button>
+        </div>
+      </div>
+      <div class="field"><label id="l-cause">Cause / Reason</label><input type="text" id="f-cause" placeholder="e.g. Surgery / அறுவை சிகிச்சை"></div>
+      <div class="field"><label id="l-bc">Blood Count</label><input type="text" id="f-bc" placeholder="e.g. Hb 6 g/dL"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📍 <span id="s2">Location & Schedule / இடம் & நேரம்</span></div>
+      <div class="field">
+        <label id="l-dist">District / மாவட்டம்</label>
+        <select id="f-dist">
+          <option value="">Select District / மாவட்டம் தேர்வு</option>
+          <option value="Chennai">Chennai</option>
+<option value="Coimbatore">Coimbatore</option>
+<option value="Madurai">Madurai</option>
+<option value="Tiruchirappalli">Tiruchirappalli</option>
+<option value="Salem">Salem</option>
+<option value="Tirunelveli">Tirunelveli</option>
+<option value="Tiruppur">Tiruppur</option>
+<option value="Vellore">Vellore</option>
+<option value="Erode">Erode</option>
+<option value="Thoothukkudi">Thoothukkudi</option>
+<option value="Dindigul">Dindigul</option>
+<option value="Thanjavur">Thanjavur</option>
+<option value="Ranipet">Ranipet</option>
+<option value="Sivaganga">Sivaganga</option>
+<option value="Virudhunagar">Virudhunagar</option>
+<option value="Nagapattinam">Nagapattinam</option>
+<option value="Kanyakumari">Kanyakumari</option>
+<option value="Dharmapuri">Dharmapuri</option>
+<option value="Krishnagiri">Krishnagiri</option>
+<option value="Pudukkottai">Pudukkottai</option>
+<option value="Namakkal">Namakkal</option>
+<option value="Cuddalore">Cuddalore</option>
+<option value="Villupuram">Villupuram</option>
+<option value="Perambalur">Perambalur</option>
+<option value="Ariyalur">Ariyalur</option>
+<option value="Karur">Karur</option>
+<option value="Ramanathapuram">Ramanathapuram</option>
+<option value="Nilgiris">Nilgiris</option>
+<option value="Tenkasi">Tenkasi</option>
+<option value="Chengalpattu">Chengalpattu</option>
+<option value="Kallakurichi">Kallakurichi</option>
+<option value="Mayiladuthurai">Mayiladuthurai</option>
+<option value="Tiruvannamalai">Tiruvannamalai</option>
+<option value="Tiruvarur">Tiruvarur</option>
+<option value="Kancheepuram">Kancheepuram</option>
+<option value="Tirupattur">Tirupattur</option>
+        </select>
+      </div>
+      <div class="field"><label id="l-area">Area / பகுதி</label><input type="text" id="f-area" placeholder="Town / Village / நகரம் / கிராமம்"></div>
+      <div class="field"><label id="l-hospital">Hospital / மருத்துவமனை</label><input type="text" id="f-hospital" placeholder="Hospital name / மருத்துவமனை பெயர்"></div>
+      <div class="field-row">
+        <div class="field"><label id="l-date">Date / தேதி</label><input type="date" id="f-date"></div>
+        <div class="field"><label id="l-time">Time / நேரம்</label><input type="time" id="f-time"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📞 <span id="s3">Contact & Verification</span></div>
+      <div class="field"><label id="l-att">Attendee No. / உதவியாளர் எண்</label><input type="tel" id="f-att" placeholder="Mobile number"></div>
+      <div class="field"><label id="l-ver">Verified By / சரிபார்த்தவர்</label><input type="text" id="f-ver" placeholder="Doctor / Authority"></div>
+    </div>
+    <button class="btn-main" onclick="saveRequest()" id="sb">💾 Save & Generate WhatsApp Message</button>
+  </div>
+
+  <div class="success-screen" id="suc-area">
+    <div class="suc-icon">✅</div>
+    <h2 id="suc-t" style="font-size:18px;margin-bottom:8px;color:var(--success);">Request Saved!</h2>
+    <p id="suc-s" style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px;">Blood request saved. Go to History to manage & track it.</p>
+    <div class="wa-box" id="wa-box-suc" style="text-align:left;"></div>
+    <button class="btn-wa" onclick="copyWAmsg()">📋 <span id="copy-lbl">Copy WhatsApp Message</span></button>
+    <a href="https://wa.me/917871777477" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#075E54;color:#fff;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700;font-family:Poppins,sans-serif;margin-bottom:10px;">
+      📲 <span id="send-lbl">Send to RCJS</span>
+    </a>
+    <button class="btn-main" style="max-width:260px;margin:0 auto;" onclick="newReq()" id="nr-btn">+ New Request</button>
+    <button class="btn-sec" style="max-width:260px;margin:8px auto 0;" onclick="showPage('history');document.getElementById('bb-h').classList.add('active')">📁 <span id="view-hist">View History</span></button>
+  </div>
+</div>
+
+<!-- ===== HISTORY PAGE ===== -->
+<div class="page" id="page-history">
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterReqs('all',this)" id="fb-all">All</button>
+    <button class="filter-btn" onclick="filterReqs('pending',this)">⏳ <span id="fb-pend">Pending</span></button>
+    <button class="filter-btn" onclick="filterReqs('active',this)">🔵 <span id="fb-act">Active</span></button>
+    <button class="filter-btn" onclick="filterReqs('completed',this)">✅ <span id="fb-comp">Completed</span></button>
+  </div>
+  <div id="req-list"></div>
+</div>
+
+<!-- ===== DONOR PAGE ===== -->
+<div class="page" id="page-donor">
+  <div class="inner-tabs">
+    <button class="inner-tab active" id="dt-reg" onclick="showDTab('register',this)">🩸 <span id="dtr">Register Donor</span></button>
+    <button class="inner-tab" id="dt-list" onclick="showDTab('list',this)">👥 <span id="dtl">Donor List</span></button>
+  </div>
+  <div id="donor-register">
+    <div class="card">
+      <div class="card-title">🧑‍⚕️ <span id="dr-title">Donor Registration / தானியர் பதிவு</span></div>
+      <div class="field"><label id="dl-name">Full Name / பெயர்</label><input type="text" id="d-name" placeholder="Your full name"></div>
+      <div class="field-row">
+        <div class="field"><label id="dl-age">Age / வயது</label><input type="number" id="d-age" placeholder="18-65" min="18" max="65"></div>
+        <div class="field"><label id="dl-phone">Phone / தொலைபேசி</label><input type="tel" id="d-phone" placeholder="Mobile number"></div>
+      </div>
+      <div class="field">
+        <label id="dl-bg">Blood Group / ரத்த வகை</label>
+        <div class="bg-grid">
+          <button class="bg-btn" onclick="selDBG(this,'A+')">A<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selDBG(this,'A-')">A<sup>-ve</sup></button>
+          <button class="bg-btn" onclick="selDBG(this,'B+')">B<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selDBG(this,'B-')">B<sup>-ve</sup></button>
+          <button class="bg-btn" onclick="selDBG(this,'O+')">O<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selDBG(this,'O-')">O<sup>-ve</sup></button>
+          <button class="bg-btn" onclick="selDBG(this,'AB+')">AB<sup>+ve</sup></button>
+          <button class="bg-btn" onclick="selDBG(this,'AB-')">AB<sup>-ve</sup></button>
+        </div>
+      </div>
+      <div class="field">
+        <label id="dl-dist">District / மாவட்டம்</label>
+        <select id="d-dist">
+          <option value="">Select District</option>
+          <option value="Chennai">Chennai</option>
+<option value="Coimbatore">Coimbatore</option>
+<option value="Madurai">Madurai</option>
+<option value="Tiruchirappalli">Tiruchirappalli</option>
+<option value="Salem">Salem</option>
+<option value="Tirunelveli">Tirunelveli</option>
+<option value="Tiruppur">Tiruppur</option>
+<option value="Vellore">Vellore</option>
+<option value="Erode">Erode</option>
+<option value="Thoothukkudi">Thoothukkudi</option>
+<option value="Dindigul">Dindigul</option>
+<option value="Thanjavur">Thanjavur</option>
+<option value="Ranipet">Ranipet</option>
+<option value="Sivaganga">Sivaganga</option>
+<option value="Virudhunagar">Virudhunagar</option>
+<option value="Nagapattinam">Nagapattinam</option>
+<option value="Kanyakumari">Kanyakumari</option>
+<option value="Dharmapuri">Dharmapuri</option>
+<option value="Krishnagiri">Krishnagiri</option>
+<option value="Pudukkottai">Pudukkottai</option>
+<option value="Namakkal">Namakkal</option>
+<option value="Cuddalore">Cuddalore</option>
+<option value="Villupuram">Villupuram</option>
+<option value="Perambalur">Perambalur</option>
+<option value="Ariyalur">Ariyalur</option>
+<option value="Karur">Karur</option>
+<option value="Ramanathapuram">Ramanathapuram</option>
+<option value="Nilgiris">Nilgiris</option>
+<option value="Tenkasi">Tenkasi</option>
+<option value="Chengalpattu">Chengalpattu</option>
+<option value="Kallakurichi">Kallakurichi</option>
+<option value="Mayiladuthurai">Mayiladuthurai</option>
+<option value="Tiruvannamalai">Tiruvannamalai</option>
+<option value="Tiruvarur">Tiruvarur</option>
+<option value="Kancheepuram">Kancheepuram</option>
+<option value="Tirupattur">Tirupattur</option>
+        </select>
+      </div>
+      <div class="field"><label id="dl-area">Area / பகுதி</label><input type="text" id="d-area" placeholder="Town / Village"></div>
+      <div class="field"><label id="dl-last">Last Donation / கடைசி தான தேதி</label><input type="date" id="d-last"></div>
+      <button class="btn-main" onclick="saveDonor()" id="d-sb">🩸 Register as Donor / தானியராக பதிவு செய்</button>
+    </div>
+  </div>
+  <div id="donor-list" style="display:none;">
+    <div class="filter-bar" id="dfbar">
+      <button class="filter-btn active" onclick="filterDonors('all',this)">All</button>
+      <button class="filter-btn" onclick="filterDonors('A+',this)">A+</button>
+      <button class="filter-btn" onclick="filterDonors('A-',this)">A-</button>
+      <button class="filter-btn" onclick="filterDonors('B+',this)">B+</button>
+      <button class="filter-btn" onclick="filterDonors('B-',this)">B-</button>
+      <button class="filter-btn" onclick="filterDonors('O+',this)">O+</button>
+      <button class="filter-btn" onclick="filterDonors('O-',this)">O-</button>
+      <button class="filter-btn" onclick="filterDonors('AB+',this)">AB+</button>
+      <button class="filter-btn" onclick="filterDonors('AB-',this)">AB-</button>
+    </div>
+    <div id="d-list-content"></div>
+  </div>
+</div>
+
+<!-- ===== DISTRICT PAGE ===== -->
+<div class="page" id="page-district">
+  <div class="card">
+    <div class="card-title">🗺️ <span id="dist-title">Tamil Nadu Districts</span></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;" id="tn-stats-grid"></div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;" id="dist-desc">Select a district to view blood requests and donors.</p>
+    <div class="dist-grid" id="dist-grid"></div>
+  </div>
+  <div class="card" id="dist-detail" style="display:none;">
+    <div class="card-title" id="dist-detail-title">📍 District Details</div>
+    <div id="dist-detail-content"></div>
+  </div>
+</div>
+
+<!-- ===== ABOUT PAGE ===== -->
+<div class="page" id="page-about">
+  <div style="background:linear-gradient(135deg,var(--red-dark),var(--red));border-radius:var(--r);padding:22px;text-align:center;color:#fff;margin-bottom:12px;">
+    <img src="assets/main-logo.png" alt="Red Carpet Jana Seva" style="width:110px;height:110px;border-radius:50%;border:4px solid var(--yellow);margin-bottom:14px;object-fit:cover;box-shadow:0 3px 12px rgba(0,0,0,0.3);">
+    <h2 style="font-size:16px;font-weight:800;color:var(--yellow);margin-bottom:4px;">RED CARPET JANA SEVA</h2>
+    <p style="font-size:12px;color:rgba(255,255,255,0.9);line-height:1.7;" id="about-desc">Tamil Nadu-based non-profit organization. We help arrange blood for people in need — completely free of cost.</p>
+    <div style="margin-top:10px;font-size:11px;color:var(--yellow);font-weight:600;">தமிழ்நாடு முழுவதும் ரத்த உதவி 🩸</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🔗 <span id="conn-title">Connect With Us</span></div>
+    <a href="https://wa.me/917871777477" class="social-link">
+      <div class="si" style="background:#e8fdf1;">💬</div>
+      <div><div style="font-size:13px;font-weight:700;">WhatsApp Direct</div><div style="font-size:11px;color:var(--muted);">7871777477</div></div>
+      <span style="margin-left:auto;color:var(--muted);font-size:18px;">›</span>
+    </a>
+    <a href="https://www.instagram.com/redcarpetjanaseva?igsh=Njh6NDBrMGx1MWRo" class="social-link">
+      <div class="si" style="background:#fdf0f8;">📸</div>
+      <div><div style="font-size:13px;font-weight:700;">Instagram</div><div style="font-size:11px;color:var(--muted);">@redcarpetjanaseva</div></div>
+      <span style="margin-left:auto;color:var(--muted);font-size:18px;">›</span>
+    </a>
+    <a href="https://whatsapp.com/channel/0029VaA3m15IHphNmedvok02" class="social-link">
+      <div class="si" style="background:#e8fdf1;">👥</div>
+      <div><div style="font-size:13px;font-weight:700;" id="comm-t">WhatsApp Community</div><div style="font-size:11px;color:var(--muted);" id="comm-s">Join our Tamil Nadu channel</div></div>
+      <span style="margin-left:auto;color:var(--muted);font-size:18px;">›</span>
+    </a>
+  </div>
+  <div class="card" style="text-align:center;">
+    <div style="font-size:13px;color:var(--muted);line-height:2.2;">
+      ❤️ <strong style="color:var(--red);">RED CARPET JANA SEVA</strong><br>
+      <span style="font-size:12px;">Donate Blood · Save Life</span><br>
+      <span style="font-size:12px;color:var(--red);font-weight:600;">ரத்தம் கொடு · உயிர் காப்பாற்று</span><br>
+      <span style="font-size:11px;color:var(--muted);">தமிழ்நாடு இலாப நோக்கற்ற அமைப்பு</span>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <button class="bb active" id="bb-form" onclick="showPage('form',null,'bb-form')"><span class="bi">📋</span><span class="bl" id="b1">Form</span></button>
+  <button class="bb" id="bb-h" onclick="showPage('history',null,'bb-h')"><span class="bi">📁</span><span class="bl" id="b2">History</span></button>
+  <button class="bb" id="bb-d" onclick="showPage('donor',null,'bb-d')"><span class="bi">🧑‍⚕️</span><span class="bl" id="b3">Donors</span></button>
+  <button class="bb" id="bb-dist" onclick="showPage('district',null,'bb-dist')"><span class="bi">🗺️</span><span class="bl" id="b4">District</span></button>
+  <button class="bb" id="bb-a" onclick="showPage('about',null,'bb-a')"><span class="bi">ℹ️</span><span class="bl" id="b5">About</span></button>
+</div>
+
+<script>
+const T = {
+  en:{
+    'h-title':'Need Blood? 🩸','h-sub':'Tamil Nadu Blood Support Network — Free of Cost',
+    'tn-label':'Tamil Nadu Blood Network',
+    't1':'Request','t2':'History','t3':'Donors','t4':'District','t5':'About',
+    's1':'Patient Details','s2':'Location & Schedule','s3':'Contact & Verification',
+    'l-name':'Full Name','l-age':'Age','l-units':'Units Required','l-bg':'Blood Group',
+    'l-cause':'Cause / Reason','l-bc':'Blood Count','l-dist':'District','l-area':'Area / Town',
+    'l-hospital':'Hospital','l-date':'Date','l-time':'Time',
+    'l-att':'Attendee Contact Number','l-ver':'Verified By',
+    'sb':'💾 Save & Generate WhatsApp Message',
+    'suc-t':'Request Saved! ✅','suc-s':'Blood request saved. Go to History to manage & track it.',
+    'nr-btn':'+ New Request','view-hist':'View History',
+    'copy-lbl':'Copy WhatsApp Message','send-lbl':'Send to RCJS',
+    'dtr':'Register Donor','dtl':'Donor List',
+    'dr-title':'Donor Registration',
+    'dl-name':'Full Name','dl-age':'Age','dl-phone':'Phone','dl-bg':'Blood Group',
+    'dl-dist':'District','dl-area':'Area / Town','dl-last':'Last Donation Date',
+    'd-sb':'🩸 Register as Donor',
+    'dist-title':'Tamil Nadu Districts','dist-desc':'Select a district to view requests & donors.',
+    'about-desc':'Tamil Nadu-based non-profit organization. We help arrange blood for people in need — completely free of cost.',
+    'comm-t':'WhatsApp Community','comm-s':'Join our Tamil Nadu channel',
+    'conn-title':'Connect With Us',
+    'sl1':'Requests','sl2':'Donors','sl3':'Completed',
+    'b1':'Form','b2':'History','b3':'Donors','b4':'District','b5':'About',
+    'fb-pend':'Pending','fb-act':'Active','fb-comp':'Completed'
+  },
+  ta:{
+    'h-title':'ரத்தம் தேவையா? 🩸','h-sub':'தமிழ்நாடு ரத்த உதவி வலைப்பின்னல் — இலவசம்',
+    'tn-label':'தமிழ்நாடு ரத்த வலைப்பின்னல்',
+    't1':'படிவம்','t2':'வரலாறு','t3':'தானியர்','t4':'மாவட்டம்','t5':'பற்றி',
+    's1':'நோயாளி விவரம்','s2':'இடம் & நேரம்','s3':'தொடர்பு & சரிபார்ப்பு',
+    'l-name':'பெயர்','l-age':'வயது','l-units':'யூனிட்கள்','l-bg':'ரத்த வகை',
+    'l-cause':'காரணம்','l-bc':'ரத்த எண்ணிக்கை','l-dist':'மாவட்டம்','l-area':'பகுதி / நகரம்',
+    'l-hospital':'மருத்துவமனை','l-date':'தேதி','l-time':'நேரம்',
+    'l-att':'உதவியாளர் எண்','l-ver':'சரிபார்த்தவர்',
+    'sb':'💾 சேமி & WhatsApp செய்தி உருவாக்கு',
+    'suc-t':'கோரிக்கை சேமிக்கப்பட்டது! ✅','suc-s':'ரத்த கோரிக்கை சேமிக்கப்பட்டது. வரலாற்றில் நிர்வகிக்கலாம்.',
+    'nr-btn':'+ புதிய கோரிக்கை','view-hist':'வரலாறு பார்',
+    'copy-lbl':'WhatsApp செய்தி நகலெடு','send-lbl':'RCJS-க்கு அனுப்பு',
+    'dtr':'தானியர் பதிவு','dtl':'தானியர் பட்டியல்',
+    'dr-title':'தானியர் பதிவு',
+    'dl-name':'பெயர்','dl-age':'வயது','dl-phone':'தொலைபேசி','dl-bg':'ரத்த வகை',
+    'dl-dist':'மாவட்டம்','dl-area':'பகுதி / நகரம்','dl-last':'கடைசி தான தேதி',
+    'd-sb':'🩸 தானியராக பதிவு செய்',
+    'dist-title':'தமிழ்நாடு மாவட்டங்கள்','dist-desc':'கோரிக்கைகள் & தானியர்களை காண மாவட்டம் தேர்வு செய்யுங்கள்.',
+    'about-desc':'தமிழ்நாடு அடிப்படையிலான இலாப நோக்கற்ற அமைப்பு. தேவைப்படுபவர்களுக்கு ரத்தம் ஏற்பாடு செய்கிறோம் — முழுவதும் இலவசம்.',
+    'comm-t':'WhatsApp சமூகம்','comm-s':'தமிழ்நாடு சேனலில் சேருங்கள்',
+    'conn-title':'எங்களை தொடர்பு கொள்ளுங்கள்',
+    'sl1':'கோரிக்கைகள்','sl2':'தானியர்கள்','sl3':'நிறைவடைந்தவை',
+    'b1':'படிவம்','b2':'வரலாறு','b3':'தானியர்','b4':'மாவட்டம்','b5':'பற்றி',
+    'fb-pend':'நிலுவையில்','fb-act':'செயலில்','fb-comp':'முடிந்தது'
+  }
+};
+
+let lang='en', selBGval='', selDBGval='', genMsg='', curFilter='all', curDFilter='all';
+let requests=[], donors=[];
+
+function loadData(){
+  try{requests=JSON.parse(localStorage.getItem('rcjs_tn_req')||'[]');}catch(e){requests=[];}
+  try{donors=JSON.parse(localStorage.getItem('rcjs_tn_don')||'[]');}catch(e){donors=[];}
+  updateStats();
+}
+function saveData(){
+  try{localStorage.setItem('rcjs_tn_req',JSON.stringify(requests));}catch(e){}
+  try{localStorage.setItem('rcjs_tn_don',JSON.stringify(donors));}catch(e){}
+  updateStats();
+}
+function updateStats(){
+  document.getElementById('stat-req').textContent=requests.length;
+  document.getElementById('stat-don').textContent=donors.length;
+  document.getElementById('stat-done').textContent=requests.filter(r=>r.status==='completed').length;
+}
+
+function setLang(l){
+  lang=l;
+  document.getElementById('lb-ta').classList.toggle('active',l==='ta');
+  document.getElementById('lb-en').classList.toggle('active',l==='en');
+  const t=T[l];
+  for(const [id,val] of Object.entries(t)){
+    const el=document.getElementById(id);
+    if(el){ if(el.tagName==='INPUT'||el.tagName==='BUTTON') el.textContent=val; else el.innerHTML=val; }
+  }
+  renderRequests(); renderDonors(); renderDistGrid();
+}
+
+function showPage(name,tabEl,bbId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.bb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(tabEl) tabEl.classList.add('active');
+  const bbMap={form:'bb-form',history:'bb-h',donor:'bb-d',district:'bb-dist',about:'bb-a'};
+  if(bbMap[name]) document.getElementById(bbMap[name]).classList.add('active');
+  if(name==='history') renderRequests();
+  if(name==='donor') renderDonors();
+  if(name==='district') renderDistGrid();
+}
+
+function selBG(btn,val){
+  document.querySelectorAll('#page-form .bg-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected'); selBGval=val;
+}
+function selDBG(btn,val){
+  document.querySelectorAll('#donor-register .bg-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected'); selDBGval=val;
+}
+
+function saveRequest(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name){alert(lang==='ta'?'பெயரை உள்ளிடவும்':'Please enter patient name');return;}
+  if(!selBGval){alert(lang==='ta'?'ரத்த வகையை தேர்வு செய்யவும்':'Please select blood group');return;}
+  const g=id=>document.getElementById(id).value.trim()||'—';
+  const req={
+    id:Date.now(),name,age:g('f-age'),bg:selBGval,units:g('f-units'),
+    cause:g('f-cause'),bc:g('f-bc'),district:g('f-dist'),area:g('f-area'),
+    hospital:g('f-hospital'),date:g('f-date'),time:g('f-time'),
+    att:g('f-att'),ver:g('f-ver'),status:'pending',
+    createdAt:new Date().toLocaleDateString('en-IN')
+  };
+  requests.unshift(req);
+  saveData();
+  genMsg=buildMsg(req);
+  document.getElementById('wa-box-suc').textContent=genMsg;
+  document.getElementById('form-area').style.display='none';
+  document.getElementById('suc-area').classList.add('show');
+}
+
+function buildMsg(r){
+  const loc=r.district!=='—'?r.district+(r.area!=='—'?', '+r.area:''):(r.area!=='—'?r.area:'—');
+  if(lang==='ta') return `🙏 *ரெட் கார்பெட் ஜன சேவா* 🩸\nரத்தம் தேவைப்பட்டால்: 📞 *7871777477*\n\n━━━━━━━━━━━━━━━━━━━━\n🆘 *ரத்தத் தேவை படிவம்*\n━━━━━━━━━━━━━━━━━━━━\n\n👤 பெயர்                     : ${r.name}\n🎂 வயது                       : ${r.age}\n🩸 ரத்த வகை              : ${r.bg}\n💉 யூனிட்கள்               : ${r.units}\n🏥 காரணம்                  : ${r.cause}\n🔬 ரத்த எண்ணிக்கை : ${r.bc}\n📍 மாவட்டம்               : ${r.district}\n🏘️ பகுதி                       : ${r.area}\n🏨 மருத்துவமனை        : ${r.hospital}\n📆 தேதி                        : ${r.date}\n🕐 நேரம்                      : ${r.time}\n📞 உதவியாளர் எண்   : ${r.att}\n✅ சரிபார்த்தவர்          : ${r.ver}\n\n━━━━━━━━━━━━━━━━━━━━\n_ரெட் கார்பெட் ஜன சேவா — இலாப நோக்கற்ற அமைப்பு_\n💬 https://wa.me/917871777477\n📸 https://www.instagram.com/redcarpetjanaseva\n👥 https://whatsapp.com/channel/0029VaA3m15IHphNmedvok02\n━━━━━━━━━━━━━━━━━━━━\n❤️ *ரெட் கார்பெட் ஜன சேவா*`;
+  return `🙏 Thank you for contacting\n*RED CARPET JANA SEVA* 🩸\nNeed blood? 📞 *7871777477*\n\n━━━━━━━━━━━━━━━━━━━━\n🆘 *BLOOD REQUIREMENT FORM*\n━━━━━━━━━━━━━━━━━━━━\n\n👤 Name           : ${r.name}\n🎂 Age              : ${r.age}\n🩸 Blood group : ${r.bg}\n💉 Units            : ${r.units}\n🏥 Cause          : ${r.cause}\n🔬 Blood count: ${r.bc}\n📍 District        : ${r.district}\n🏘️ Area             : ${r.area}\n🏨 Hospital      : ${r.hospital}\n📆 Date            : ${r.date}\n🕐 Time            : ${r.time}\n📞 Attendee    : ${r.att}\n✅ Verified by  : ${r.ver}\n\n━━━━━━━━━━━━━━━━━━━━\n_RED CARPET JANA SEVA — Non-profit | Tamil Nadu_\n💬 https://wa.me/917871777477\n📸 https://www.instagram.com/redcarpetjanaseva\n👥 https://whatsapp.com/channel/0029VaA3m15IHphNmedvok02\n━━━━━━━━━━━━━━━━━━━━\n❤️ *RED CARPET JANA SEVA*`;
+}
+
+function copyWAmsg(){
+  if(!genMsg) return;
+  navigator.clipboard.writeText(genMsg).then(()=>{
+    const btn=document.querySelector('.btn-wa');
+    const orig=btn.innerHTML;
+    btn.innerHTML='✅ '+(lang==='ta'?'நகலெடுக்கப்பட்டது!':'Copied!');
+    setTimeout(()=>{btn.innerHTML=orig;},2000);
+  });
+}
+
+function newReq(){
+  document.getElementById('form-area').style.display='block';
+  document.getElementById('suc-area').classList.remove('show');
+  ['f-name','f-age','f-units','f-cause','f-bc','f-area','f-hospital','f-att','f-ver'].forEach(id=>{document.getElementById(id).value='';;});
+  document.getElementById('f-dist').value='';
+  document.getElementById('f-date').valueAsDate=new Date();
+  document.getElementById('f-time').value='';
+  document.querySelectorAll('#page-form .bg-btn').forEach(b=>b.classList.remove('selected'));
+  selBGval=''; genMsg='';
+}
+
+function filterReqs(f,btn){
+  curFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderRequests();
+}
+
+function renderRequests(){
+  const container=document.getElementById('req-list');
+  const filtered=curFilter==='all'?requests:requests.filter(r=>r.status===curFilter);
+  if(filtered.length===0){
+    container.innerHTML=`<div class="empty"><div class="ei">📋</div><p>${lang==='ta'?'கோரிக்கைகள் இல்லை':'No requests found. Add a blood request first.'}</p></div>`;
+    return;
+  }
+  const statusLabel=(s)=>s==='pending'?'⏳ '+(lang==='ta'?'நிலுவை':'Pending'):s==='active'?'🔵 '+(lang==='ta'?'செயலில்':'Active'):'✅ '+(lang==='ta'?'முடிந்தது':'Done');
+  container.innerHTML=filtered.map(r=>`
+    <div class="req-item ${r.status==='completed'?'done':''}" id="ri-${r.id}">
+      <div class="req-top">
+        <div class="req-name">${r.name}</div>
+        <span class="status-badge s-${r.status}">${statusLabel(r.status)}</span>
+      </div>
+      <div class="req-meta">🩸 ${r.bg} &nbsp;·&nbsp; 💉 ${r.units} units &nbsp;·&nbsp; 📅 ${r.date}</div>
+      <div class="req-meta">📍 ${r.district!=='—'?r.district:''} ${r.area!=='—'?'· '+r.area:''} &nbsp;·&nbsp; 🏨 ${r.hospital}</div>
+      <div class="req-actions">
+        ${r.status!=='completed'?`<button class="act-btn act-done" onclick="markDone(${r.id})">✅ ${lang==='ta'?'முடிந்தது':'Done'}</button>`:''}
+        <button class="act-btn act-wa" onclick="shareReqWA(${r.id})">💬 WhatsApp</button>
+        <button class="act-btn act-del" onclick="delReq(${r.id})">🗑️ ${lang==='ta'?'நீக்கு':'Delete'}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function markDone(id){
+  const r=requests.find(x=>x.id===id);
+  if(r){r.status=r.status==='pending'?'active':r.status==='active'?'completed':'completed';saveData();renderRequests();}
+}
+function delReq(id){
+  if(confirm(lang==='ta'?'இந்த கோரிக்கையை நீக்கவா?':'Delete this request?')){
+    requests=requests.filter(x=>x.id!==id);saveData();renderRequests();
+  }
+}
+function shareReqWA(id){
+  const r=requests.find(x=>x.id===id);
+  if(!r) return;
+  const msg=buildMsg(r);
+  navigator.clipboard.writeText(msg).then(()=>alert(lang==='ta'?'செய்தி நகலெடுக்கப்பட்டது! WhatsApp-ல் ஒட்டுங்கள்':'Message copied! Paste in WhatsApp'));
+}
+
+function saveDonor(){
+  const name=document.getElementById('d-name').value.trim();
+  if(!name){alert(lang==='ta'?'பெயரை உள்ளிடவும்':'Enter your name!');return;}
+  if(!selDBGval){alert(lang==='ta'?'ரத்த வகையை தேர்வு செய்யவும்':'Select blood group!');return;}
+  const g=id=>document.getElementById(id).value.trim()||'—';
+  donors.unshift({
+    id:Date.now(),name,age:g('d-age'),phone:g('d-phone'),bg:selDBGval,
+    district:g('d-dist'),area:g('d-area'),last:g('d-last'),
+    registeredAt:new Date().toLocaleDateString('en-IN')
+  });
+  saveData();
+  alert(lang==='ta'?'தானியராக பதிவு செய்யப்பட்டீர்கள்! நன்றி ❤️':'Registered as donor! Thank you ❤️');
+  ['d-name','d-age','d-phone','d-area','d-last'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('d-dist').value='';
+  document.querySelectorAll('#donor-register .bg-btn').forEach(b=>b.classList.remove('selected'));
+  selDBGval='';
+  showDTab('list',document.getElementById('dt-list'));
+  renderDonors();
+}
+
+function showDTab(tab,btn){
+  document.querySelectorAll('.inner-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('donor-register').style.display=tab==='register'?'block':'none';
+  document.getElementById('donor-list').style.display=tab==='list'?'block':'none';
+  if(tab==='list') renderDonors();
+}
+
+function filterDonors(f,btn){
+  curDFilter=f;
+  document.querySelectorAll('#dfbar .filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderDonors();
+}
+
+function renderDonors(){
+  const c=document.getElementById('d-list-content');
+  const filtered=curDFilter==='all'?donors:donors.filter(d=>d.bg===curDFilter);
+  if(filtered.length===0){
+    c.innerHTML=`<div class="empty"><div class="ei">🧑‍⚕️</div><p>${lang==='ta'?'தானியர்கள் இல்லை. முதலில் பதிவு செய்யுங்கள்!':'No donors yet. Be the first to register!'}</p></div>`;
+    return;
+  }
+  c.innerHTML=filtered.map(d=>`
+    <div class="donor-card">
+      <div class="donor-avatar">${d.name.charAt(0).toUpperCase()}</div>
+      <div>
+        <div style="font-size:13px;font-weight:700;">${d.name}</div>
+        <div style="font-size:11px;color:var(--muted);">📍 ${d.district!=='—'?d.district:''}${d.area!=='—'?' · '+d.area:''}</div>
+        <div style="font-size:11px;color:var(--muted);">📞 ${d.phone} · 🎂 ${d.age}</div>
+      </div>
+      <div class="donor-bg">${d.bg}</div>
+    </div>
+  `).join('');
+}
+
+function renderDistGrid(){
+  const grid=document.getElementById('dist-grid');
+  const counts={};
+  requests.forEach(r=>{if(r.district&&r.district!=='—') counts[r.district]=(counts[r.district]||0)+1;});
+  const donCounts={};
+  donors.forEach(d=>{if(d.district&&d.district!=='—') donCounts[d.district]=(donCounts[d.district]||0)+1;});
+  const allDists=[...new Set([...Object.keys(counts),...Object.keys(donCounts)])].sort();
+
+  // top stats
+  document.getElementById('tn-stats-grid').innerHTML=`
+    <div style="background:var(--red-light);border-radius:var(--rs);padding:10px;text-align:center;"><div style="font-size:20px;font-weight:800;color:var(--red);">${Object.keys(counts).length}</div><div style="font-size:10px;color:var(--muted);">${lang==='ta'?'மாவட்டங்கள்':'Districts'}</div></div>
+    <div style="background:var(--success-bg);border-radius:var(--rs);padding:10px;text-align:center;"><div style="font-size:20px;font-weight:800;color:var(--success);">${requests.length}</div><div style="font-size:10px;color:var(--muted);">${lang==='ta'?'கோரிக்கைகள்':'Requests'}</div></div>
+    <div style="background:#e0f2fe;border-radius:var(--rs);padding:10px;text-align:center;"><div style="font-size:20px;font-weight:800;color:#0369a1;">${donors.length}</div><div style="font-size:10px;color:var(--muted);">${lang==='ta'?'தானியர்கள்':'Donors'}</div></div>
+  `;
+  if(allDists.length===0){
+    grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="ei">🗺️</div><p>${lang==='ta'?'இன்னும் மாவட்ட தரவு இல்லை. கோரிக்கை சேர்க்கவும்!':'No district data yet. Add requests to see coverage!'}</p></div>`;
+    return;
+  }
+  grid.innerHTML=allDists.map(d=>`
+    <button class="dist-btn" onclick="showDistDetail('${d}')">
+      ${d}<br>
+      <span style="font-size:10px;color:var(--muted);">${counts[d]||0} req · ${donCounts[d]||0} donors</span>
+    </button>
+  `).join('');
+}
+
+function showDistDetail(dist){
+  const dReqs=requests.filter(r=>r.district===dist);
+  const dDons=donors.filter(d=>d.district===dist);
+  document.getElementById('dist-detail').style.display='block';
+  document.getElementById('dist-detail-title').textContent='📍 '+dist;
+  document.getElementById('dist-detail-content').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+      <div style="background:var(--red-light);border-radius:var(--rs);padding:12px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--red);">${dReqs.length}</div>
+        <div style="font-size:11px;color:var(--muted);">${lang==='ta'?'கோரிக்கைகள்':'Requests'}</div>
+      </div>
+      <div style="background:var(--success-bg);border-radius:var(--rs);padding:12px;text-align:center;">
+        <div style="font-size:22px;font-weight:800;color:var(--success);">${dDons.length}</div>
+        <div style="font-size:11px;color:var(--muted);">${lang==='ta'?'தானியர்கள்':'Donors'}</div>
+      </div>
+    </div>
+    ${dReqs.length>0?'<div style="font-size:12px;font-weight:700;margin-bottom:8px;">'+( lang==='ta'?'சமீபத்திய கோரிக்கைகள்':'Recent Requests')+'</div>'+dReqs.slice(0,3).map(r=>`<div style="padding:9px;background:#f9f9f9;border-radius:8px;margin-bottom:6px;font-size:12px;border-left:3px solid var(--red);"><strong>${r.name}</strong> &nbsp;·&nbsp; ${r.bg} &nbsp;·&nbsp; ${r.hospital}</div>`).join(''):''}
+    ${dDons.length>0?'<div style="font-size:12px;font-weight:700;margin:10px 0 8px;">'+( lang==='ta'?'தானியர்கள்':'Donors')+'</div>'+dDons.slice(0,3).map(d=>`<div style="padding:9px;background:#f0fdf4;border-radius:8px;margin-bottom:6px;font-size:12px;border-left:3px solid var(--success);"><strong>${d.name}</strong> &nbsp;·&nbsp; ${d.bg} &nbsp;·&nbsp; 📞 ${d.phone}</div>`).join(''):''}
+  `;
+  document.getElementById('dist-detail').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+loadData();
+document.getElementById('f-date').valueAsDate=new Date();
+</script>
+</body>
+</html>
